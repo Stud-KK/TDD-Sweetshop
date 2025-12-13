@@ -17,14 +17,14 @@ class AuthControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private ObjectMapper mapper;
+    private ObjectMapper objectMapper;
 
     static class RegisterRequest {
         public String name;
         public String email;
         public String password;
 
-        public RegisterRequest(String name, String email, String password) {
+        RegisterRequest(String name, String email, String password) {
             this.name = name;
             this.email = email;
             this.password = password;
@@ -33,15 +33,17 @@ class AuthControllerTest {
 
     @Test
     void registerUser_shouldReturn201() throws Exception {
-        RegisterRequest req = new RegisterRequest(
+        RegisterRequest request = new RegisterRequest(
                 "Komal",
                 "komal@example.com",
                 "Password123"
         );
 
-        mvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(req)))
+        mvc.perform(
+                        post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
                 .andExpect(status().isCreated());
     }
 }
