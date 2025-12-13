@@ -48,4 +48,48 @@ class AuthControllerTest {
                 )
                 .andExpect(status().isCreated());
     }
+
+    //Missing request body
+    @Test
+    void registerUser_withoutRequestBody_shouldReturn400() throws Exception {
+        mvc.perform(
+                        post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest());
+    }
+    //Invalid email
+    @Test
+    void registerUser_withInvalidEmail_shouldReturn400() throws Exception {
+        RegisterRequest request = new RegisterRequest(
+                "Komal",
+                "invalid-email",
+                "Password123"
+        );
+
+        mvc.perform(
+                        post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isBadRequest());
+    }
+    //empty password
+    @Test
+    void registerUser_withEmptyPassword_shouldReturn400() throws Exception {
+        RegisterRequest request = new RegisterRequest(
+                "Komal",
+                "komal@example.com",
+                ""
+        );
+
+        mvc.perform(
+                        post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isBadRequest());
+    }
+
+
 }
