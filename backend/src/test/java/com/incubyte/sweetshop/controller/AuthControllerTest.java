@@ -10,6 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.incubyte.sweetshop.service.AuthService;
+
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -58,6 +63,7 @@ class AuthControllerTest {
                 )
                 .andExpect(status().isBadRequest());
     }
+
     //Invalid email
     @Test
     void registerUser_withInvalidEmail_shouldReturn400() throws Exception {
@@ -74,6 +80,7 @@ class AuthControllerTest {
                 )
                 .andExpect(status().isBadRequest());
     }
+
     //empty password
     @Test
     void registerUser_withEmptyPassword_shouldReturn400() throws Exception {
@@ -92,4 +99,24 @@ class AuthControllerTest {
     }
 
 
+    @MockBean
+    private AuthService authService;
+
+    @Test
+    void registerUser_validRequest_shouldCallAuthService() throws Exception {
+        RegisterRequest request = new RegisterRequest(
+                "Komal",
+                "komal@example.com",
+                "Password123"
+        );
+
+        mvc.perform(
+                        post("/api/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isCreated());
+
+        Mockito.verify(authService).register(Mockito.any());
+    }
 }
