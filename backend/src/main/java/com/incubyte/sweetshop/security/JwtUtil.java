@@ -22,7 +22,12 @@ public class JwtUtil {
                 .compact();
     }
     public String validateAndExtractEmail(String token) {
-        return null;
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
 }
