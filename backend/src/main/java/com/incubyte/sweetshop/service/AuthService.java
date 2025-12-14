@@ -1,6 +1,6 @@
 package com.incubyte.sweetshop.service;
 
-import com.incubyte.sweetshop.controller.dto.RegisterRequest;
+import com.incubyte.sweetshop.dto.RegisterRequest;
 import com.incubyte.sweetshop.security.JwtUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import java.util.Map;
 public class AuthService {
 
     private final Map<String, String> users = new HashMap<>();
+    private final Map<String, String> roles = new HashMap<>();
     private final JwtUtil jwtUtil;
 
     public AuthService(JwtUtil jwtUtil) {
@@ -28,6 +29,7 @@ public class AuthService {
             throw new IllegalStateException("Email already exists");
         }
         users.put(request.getEmail(), request.getPassword());
+        roles.put(request.getEmail(), "USER");
     }
 
     public String login(String email, String password) {
