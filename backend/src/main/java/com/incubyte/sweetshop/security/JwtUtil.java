@@ -21,6 +21,16 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
+
+    public String generateToken(String email, String role) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("role", role != null ? role : "USER")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .signWith(key)
+                .compact();
+    }
     public String validateAndExtractEmail(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
