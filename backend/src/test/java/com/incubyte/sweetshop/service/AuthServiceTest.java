@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.incubyte.sweetshop.security.JwtUtil;
 class AuthServiceTest {
 
@@ -30,6 +32,9 @@ class AuthServiceTest {
     }
     @Test
     void login_shouldReturnJwtToken() {
+        when(jwtUtil.generateToken("komal@example.com"))
+                .thenReturn("dummy-jwt-token");
+
         RegisterRequest register = new RegisterRequest(
                 "Komal",
                 "komal@example.com",

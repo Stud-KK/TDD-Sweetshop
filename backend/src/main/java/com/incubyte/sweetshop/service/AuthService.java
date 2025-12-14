@@ -25,6 +25,14 @@ public class AuthService {
     }
 
     public String login(String email, String password) {
-      return null;
+        if (!users.containsKey(email)) {
+            throw new IllegalStateException("User not found");
+        }
+
+        if (!users.get(email).equals(password)) {
+            throw new IllegalStateException("Invalid credentials");
+        }
+
+        return jwtUtil.generateToken(email);
     }
 }
