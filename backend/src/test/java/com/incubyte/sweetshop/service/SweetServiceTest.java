@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import com.incubyte.sweetshop.model.Sweet;
 class SweetServiceTest {
 
     @Test
