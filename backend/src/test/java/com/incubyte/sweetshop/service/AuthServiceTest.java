@@ -50,4 +50,5 @@ class AuthServiceTest {
 
         assertNotNull(token);
     }
+
 }
