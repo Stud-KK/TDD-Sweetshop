@@ -3,8 +3,7 @@ package com.incubyte.sweetshop.service;
 import com.incubyte.sweetshop.controller.dto.RegisterRequest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.assertThrows
 class AuthServiceTest {
 
     private final AuthService authService = new AuthService();
