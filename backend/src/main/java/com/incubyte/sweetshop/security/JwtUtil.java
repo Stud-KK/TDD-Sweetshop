@@ -30,4 +30,26 @@ public class JwtUtil {
                 .getSubject();
     }
 
+  public boolean isAdmin(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return false;
+        }
+
+        String token = authHeader.substring(7);
+        String role = extractRole(token);
+
+        return "ADMIN".equals(role);
+    }
+    public String extractRole(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
+    }
+
+
+
+
 }

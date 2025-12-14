@@ -1,10 +1,11 @@
-package com.sweetshop.controller;
+package com.incubyte.sweetshop.controller;
 
-import com.sweetshop.dto.SweetRequest;
-import com.sweetshop.model.Sweet;
-import com.sweetshop.service.SweetService;
+import com.incubyte.sweetshop.model.Sweet;
+import com.incubyte.sweetshop.security.JwtUtil;
+import com.incubyte.sweetshop.service.SweetService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,8 +17,10 @@ public class SweetController {
 
     private final SweetService sweetService;
 
-    public SweetController(SweetService sweetService) {
+    public SweetController(SweetService sweetService, JwtUtil jwtUtil) {
         this.sweetService = sweetService;
+        this.jwtUtil = jwtUtil;
+
     }
 
     @GetMapping("/health")
@@ -39,7 +42,7 @@ public class SweetController {
     }
 
     @PostMapping
-    public ResponseEntity<Sweet> createSweet(@RequestBody SweetRequest sweet) {
+    public ResponseEntity<Sweet> createSweet(@RequestBody Sweet sweet) {
         return ResponseEntity.status(201)
                 .body(sweetService.createSweet(sweet));
     }
@@ -47,7 +50,7 @@ public class SweetController {
     @PutMapping("/{id}")
     public ResponseEntity<Sweet> updateSweet(
             @PathVariable String id,
-            @RequestBody SweetRequest sweet
+            @RequestBody Sweet sweet
     ) {
         return ResponseEntity.ok(sweetService.updateSweet(id, sweet));
     }
@@ -85,4 +88,17 @@ public class SweetController {
                 sweetService.searchSweets(name, category, minPrice, maxPrice)
         );
     }
+    private final JwtUtil jwtUtil;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSweet(
+            @PathVariable String id,
+            @RequestHeader("Authorization") String auth
+    ) {
+        if (!jwtUtil.isAdmin(auth)) {
+            return ResponseEntity.status(403).build();
+        }
+        sweetService.deleteSweet(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
