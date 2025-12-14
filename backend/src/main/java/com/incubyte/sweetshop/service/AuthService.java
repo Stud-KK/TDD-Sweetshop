@@ -1,22 +1,30 @@
 package com.incubyte.sweetshop.service;
 
 import com.incubyte.sweetshop.controller.dto.RegisterRequest;
+import com.incubyte.sweetshop.security.JwtUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
 
+    private final Map<String, String> users = new HashMap<>();
+    private final JwtUtil jwtUtil;
 
-    private final Set<String> registeredEmails = new HashSet<>();
+    public AuthService(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     public void register(RegisterRequest request) {
-        if (registeredEmails.contains(request.getEmail())) {
+        if (users.containsKey(request.getEmail())) {
             throw new IllegalStateException("Email already exists");
         }
+        users.put(request.getEmail(), request.getPassword());
+    }
 
-        registeredEmails.add(request.getEmail());
+    public String login(String email, String password) {
+      return null;
     }
 }
