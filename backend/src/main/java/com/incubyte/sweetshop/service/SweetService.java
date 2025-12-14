@@ -22,4 +22,8 @@ public class SweetService {
     public List<Sweet> getAllSweets() {
         return sweetRepository.findAll();
     }
+    public List<Sweet> searchByCategory(String category) {
+        return sweetRepository.findByCategoryIgnoreCase(category);
+    }
+
 }
