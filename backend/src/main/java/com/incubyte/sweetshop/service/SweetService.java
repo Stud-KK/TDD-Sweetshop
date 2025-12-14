@@ -1,20 +1,25 @@
 package com.incubyte.sweetshop.service;
 
 import com.incubyte.sweetshop.model.Sweet;
-import java.util.ArrayList;
+import com.incubyte.sweetshop.repository.SweetRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
+
+@Service
 public class SweetService {
 
-    private final List<Sweet> sweets = new ArrayList<>();
+    private final SweetRepository sweetRepository;
+
+    public SweetService(SweetRepository sweetRepository) {
+        this.sweetRepository = sweetRepository;
+    }
 
     public Sweet addSweet(Sweet sweet) {
-        sweets.add(sweet);
-        return sweet;
+        return sweetRepository.save(sweet);
     }
 
     public List<Sweet> getAllSweets() {
-        return sweets;
+        return sweetRepository.findAll();
     }
-
-
 }
