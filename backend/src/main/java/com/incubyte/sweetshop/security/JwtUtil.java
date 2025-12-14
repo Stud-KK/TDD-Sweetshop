@@ -21,4 +21,8 @@ public class JwtUtil {
                 .signWith(key)
                 .compact();
     }
+    public String validateAndExtractEmail(String token) {
+        return null;
+    }
+
 }
