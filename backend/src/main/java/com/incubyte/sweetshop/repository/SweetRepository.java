@@ -4,7 +4,7 @@ import com.incubyte.sweetshop.model.Sweet;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-
+import com.incubyte.sweetshop.repository.SweetRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
