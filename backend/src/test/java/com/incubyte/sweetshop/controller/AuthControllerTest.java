@@ -119,4 +119,21 @@ class AuthControllerTest {
 
         Mockito.verify(authService).register(Mockito.any());
     }
+    @Test
+    void loginUser_shouldReturn200() throws Exception {
+        String loginJson = """
+        {
+          "email": "komal@example.com",
+          "password": "Password123"
+        }
+        """;
+
+        mvc.perform(
+                        post("/api/auth/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(loginJson)
+                )
+                .andExpect(status().isOk());
+    }
+
 }
